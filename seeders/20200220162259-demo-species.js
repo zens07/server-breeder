@@ -12,17 +12,14 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('users', [{
-      email: 'nurzaenimuhammad@gmail.com',
-      password: '12345',
-      role: 'user',
+    return queryInterface.bulkInsert('species', [{
+      name: 'DOG',
+      information: 'Dog adalah anjing',
       createdAt: new Date(),
       updatedAt: new Date()
-    },
-    {
-      email: 'risarisnawati@gmail.com',
-      password: '12345',
-      role: 'user',
+    }, {
+      name: 'CAT',
+      information: 'Cat adalah kucing',
       createdAt: new Date(),
       updatedAt: new Date()
     }]);
@@ -36,6 +33,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete('species', null, {});
   }
 };

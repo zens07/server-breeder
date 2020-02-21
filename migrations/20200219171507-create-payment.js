@@ -21,14 +21,15 @@ module.exports = {
           'premium'
         ]
       },
-      detail_user_id: {
+      user_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        reference: {
-          model: 'detail-users',
+        references: {
+          model: 'users',
           key: 'id'
         },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT'
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

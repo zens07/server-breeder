@@ -2,10 +2,18 @@
 module.exports = (sequelize, DataTypes) => {
   const Pets = sequelize.define('Pets', {
     name: DataTypes.STRING,
-    detail_user_id: DataTypes.INTEGER
+    gender: DataTypes.STRING,
+    age: DataTypes.STRING,
+    about: DataTypes.STRING,
+    photo: DataTypes.STRING,
+    species_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER
   }, {});
   Pets.associate = function (models) {
-    // associations can be defined here
+    Pets.belongsTo(models.Species, {
+      foreignkey: 'species_id',
+      as: 'speciesId'
+    })
   };
   return Pets;
 };

@@ -11,23 +11,46 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      detail_user_id: {
-        type: Sequelize.INTEGER,
-        reference: {
-          model: 'detail_users',
-          key: 'id'
-        },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT'
+      gender: {
+        type: Sequelize.ENUM,
+        values: [
+          'Male',
+          'Female'
+        ]
       },
-      species: {
+      age: {
+        type: Sequelize.ENUM,
+        values: [
+          'Adult',
+          'Young',
+          'Little'
+        ]
+      },
+      about: {
+        type: Sequelize.STRING
+      },
+      photo: {
+        type: Sequelize.STRING
+      },
+      user_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        reference: {
-          models: 'species',
+        references: {
+          model: 'users',
           key: 'id'
         },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT'
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      species_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'species',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

@@ -12,16 +12,20 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('detail-users', [{
+    return queryInterface.bulkInsert('profiles', [{
       name: 'Muhammad Nur Zaeni',
       address: 'kadipaten',
       phone: '081772891204',
-      user_id: '1'
+      user_id: '1',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }, {
       name: 'Risa Risnawati',
       address: 'jatiwangi',
       phone: '08289828928',
-      user_id: '2'
+      user_id: '2',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }]);
   },
 
@@ -33,6 +37,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('detail-users', null, {});
+    return queryInterface.bulkDelete('profiles', null, {});
   }
 };
