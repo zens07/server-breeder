@@ -8,10 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      no_rek: {
+      noRek: {
         type: Sequelize.STRING
       },
-      proof_of_transfer: {
+      proofOfTransfer: {
         type: Sequelize.STRING
       },
       status: {
@@ -21,7 +21,7 @@ module.exports = {
           'premium'
         ]
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {

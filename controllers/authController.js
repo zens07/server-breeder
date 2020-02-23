@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const models = require('../models')
 
-const User = models.Users
+const User = models.users
 
 exports.login = (req, res) => {
     const email = req.body.email

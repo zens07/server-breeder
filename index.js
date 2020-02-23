@@ -11,18 +11,31 @@ const port = 5000
 app.use(cors())
 app.use(bodyParser.json())
 
-const AuthController = require('./controllers/authController')
-const RegisterController = require('./controllers/registerController')
-const SpeciesController = require('./controllers/speciesController')
+const authController = require('./controllers/authController')
+const registerController = require('./controllers/registerController')
+const speciesController = require('./controllers/speciesController')
+const petController = require('./controllers/petController')
+const userController = require('./controllers/userController')
+const { authenticated } = require('./middleware')
 
 app.group('/api/v1', (router) => {
     //auth router login
-    router.post('/auth/login', AuthController.login)
+    router.post('/auth/login', authController.login)
     //router register
-    router.post('/register', RegisterController.insert)
+    router.post('/register', registerController.insert)
     //router spesies
-    router.post('/create/species', SpeciesController.insert)
-    router.get('/show/species', SpeciesController.show)
+    router.get('/index/species', authenticated, speciesController.index)
+    router.post('/create/species', authenticated, speciesController.insert)
+    //router pets
+    router.get('/index/pet', authenticated, petController.index)
+    router.get('/show/pet/:id', authenticated, petController.show)
+    router.post('/create/pet', authenticated, petController.insert)
+    router.patch('/edit/pet/:id', authenticated, petController.edit)
+    router.delete('/delete/pet/:id', authenticated, petController.deleted)
+    //router user
+    router.get('/show/user/:userId', authenticated, userController.show)
+    router.patch('/edit/user/:userId', authenticated, userController.update)
+    router.delete('/delete/user/:userId', authenticated, userController.deleted)
 })
 
 app.listen(port, () => {

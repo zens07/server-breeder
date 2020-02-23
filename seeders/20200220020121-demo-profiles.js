@@ -16,14 +16,14 @@ module.exports = {
       name: 'Muhammad Nur Zaeni',
       address: 'kadipaten',
       phone: '081772891204',
-      user_id: '1',
+      userId: '1',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
       name: 'Risa Risnawati',
       address: 'jatiwangi',
       phone: '08289828928',
-      user_id: '2',
+      userId: '2',
       createdAt: new Date(),
       updatedAt: new Date()
     }]);

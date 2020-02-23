@@ -32,7 +32,7 @@ module.exports = {
       photo: {
         type: Sequelize.STRING
       },
-      user_id: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -42,7 +42,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-      species_id: {
+      speciesId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {

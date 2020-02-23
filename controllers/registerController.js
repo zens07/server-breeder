@@ -1,10 +1,10 @@
 // const AuthController = require('./authController')
 const jwt = require('jsonwebtoken')
 const models = require('../models')
-const User = models.Users
-const Profile = models.Profiles
-const Pet = models.Pets
-const Species = models.Species
+const User = models.users
+const Profile = models.profile
+const Pet = models.pet
+const Species = models.species
 
 exports.insert = async (req, res) => {
     //req.body for Tabel User, Profile, Pet
@@ -15,13 +15,15 @@ exports.insert = async (req, res) => {
             name_user,
             phone,
             address,
+        } = req.body
+        const {
             name_pet,
             gender,
             age,
             photo,
             about,
             species_id
-        } = req.body
+        } = req.body.pet
 
         validationUser = await User.findOne({ where: { email } })
         if (!validationUser) {
@@ -36,14 +38,15 @@ exports.insert = async (req, res) => {
                 address: address,
                 user_id: user.id
             })
+            // console.log(profile)
             const pet = await Pet.create({
                 name: name_pet,
                 gender: gender,
                 age: age,
                 photo,
                 about,
-                species_id: species_id,
-                user_id: user.id
+                speciesId: species_id,
+                userId: user.id
             })
             const species = await Species.findOne({
                 where: { id: pet.species_id }
@@ -64,38 +67,6 @@ exports.insert = async (req, res) => {
                 status: "failed"
             })
         }
-
-        // const pet = await Pet.create({
-        //     name: name_pet,
-        //     gender: gender,
-        //     age: age,
-        //     species_id: species_id,
-        //     user_id: user.id
-        // })
-        // await Species.findOne({
-        //     where: { id: pet.species.id }
-        // })
-
-        // if (user) {
-        //     res.send({
-        //         message: "user done",
-        //         status: "sucess"
-        //     })
-        // }
-        // await User.findOne({ where: { email, password } }).then(user => {
-        //     if (user) {
-        //         const tokenKey = jwt.sign({ userId: user.id }, 'my-token-key')
-        //         res.send({
-        //             email: user.email,
-        //             token: tokenKey
-        //         })
-        //     } else {
-        //         res.send({
-        //             error: true,
-        //             messaga: "wrong email and password"
-        //         })
-        //     }
-        // })
     } catch (error) {
         res.send(error)
     }
