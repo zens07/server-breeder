@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  pet.associate = function (models) {
+  pet.associate = function(models) {
     pet.belongsTo(models.species, {
       foreignkey: "speciesId"
     });

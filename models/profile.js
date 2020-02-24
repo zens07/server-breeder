@@ -5,15 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       address: DataTypes.STRING,
-      phone: DataTypes.STRING,
-      userId: DataTypes.INTEGER
+      phone: DataTypes.STRING
     },
     {}
   );
-  profile.associate = function (models) {
-    profile.belongsTo(models.users, {
-      foreignkey: "userId"
-    });
+  profile.associate = function(models) {
+    // profile.belongsTo(models.users, {
+    //   foreignkey: "userId"
+    // });
   };
   return profile;
 };

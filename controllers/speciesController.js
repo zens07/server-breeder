@@ -1,43 +1,45 @@
-const Species = require('../models').species
-const Users = require('../models').users
+const Species = require("../models").species;
+const Users = require("../models").users;
 
 exports.index = async (req, res) => {
-    try {
-        const species = await Species.findAll()
-        res.send({
-            species
-        })
-    } catch (error) {
-        res.send(error)
-    }
-}
+  try {
+    const species = await Species.findAll();
+    res.send({
+      species
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.insert = async (req, res) => {
-    try {
-        if (req.user.userId) {
-            const userFind = await Users.findOne({
-                where: { id: req.user.userId }
-            })
-            // console.log(userFind)
-            if (userFind.role == "admin") {
-                const species = await Species.create({
-                    name: req.body.name,
-                    information: req.body.information
-                })
-                res.send({
-                    id: species.id,
-                    name: species.name,
-                    message: "created new species done",
-                    status: "true"
-                })
-            } else if (userFind.role == "user") {
-                res.send({
-                    message: "You are not an admin role",
-                    status: "false"
-                })
-            }
-        }
-    } catch (error) {
-        res.send(error)
+  try {
+    const verifyUser = await Users.findOne({
+      where: { id: req.user.userId }
+    });
+
+    if (verifyUser.role == "admin") {
+      const species = await Species.create({
+        name: req.body.name,
+        information: req.body.information
+      });
+      res.send({
+        id: species.id,
+        name: species.name,
+        message: "created new species done",
+        status: "true"
+      });
+    } else if (verifyUser.role == "user") {
+      res.status(403).send({
+        message: "You are not an admin role",
+        status: false
+      });
     }
-}
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      message: "No authenticated, login for authenticated",
+      status: false
+    });
+  }
+};
