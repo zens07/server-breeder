@@ -17,16 +17,6 @@ module.exports = {
       phone: {
         type: Sequelize.STRING
       },
-      // userId: {
-      //   allowNull: false,
-      //   type: Sequelize.INTEGER,
-      //   references: {
-      //     model: 'users',
-      //     key: 'id'
-      //   },
-      //   onUpdate: 'CASCADE',
-      //   onDelete: 'CASCADE'
-      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('pets', {
+    return queryInterface.createTable("pets", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,18 +13,11 @@ module.exports = {
       },
       gender: {
         type: Sequelize.ENUM,
-        values: [
-          'Male',
-          'Female'
-        ]
+        values: ["Male", "Female"]
       },
       age: {
         type: Sequelize.ENUM,
-        values: [
-          'Adult',
-          'Young',
-          'Little'
-        ]
+        values: ["Adult", "Young", "Little"]
       },
       about: {
         type: Sequelize.STRING
@@ -36,21 +29,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
-          key: 'id'
+          model: "users",
+          key: "id"
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       speciesId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'species',
-          key: 'id'
+          model: "species",
+          key: "id"
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
       },
       createdAt: {
         allowNull: false,
@@ -63,6 +56,7 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('pets');
+    return queryInterface.dropTable("pets");
   }
 };
+0;
