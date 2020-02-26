@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     profileId: DataTypes.INTEGER
   });
   users.associate = function(models) {
-    users.hasMany(models.pet, {
-      foreignkey: "userId"
-    });
+    // users.hasMany(models.pet, {
+    //   foreignkey: "userId"
+    // });
     users.belongsTo(models.profile, {
       foreignkey: "profileId"
     });
