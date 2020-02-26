@@ -19,13 +19,12 @@ exports.insert = async (req, res) => {
     });
 
     if (verifyUser.role == "admin") {
-      const species = await Species.create({
+      const data = await Species.create({
         name: req.body.name,
         information: req.body.information
       });
       res.send({
-        id: species.id,
-        name: species.name,
+        data,
         message: "created new species done",
         status: "true"
       });

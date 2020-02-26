@@ -1,21 +1,41 @@
 const Pet = require("../models").pet;
 const User = require("../models").users;
 const Species = require("../models").species;
+const Profile = require("../models").profile;
+const Payment = require("../models").payment;
 
 exports.index = async (req, res) => {
   try {
     const data = await Pet.findAll({
       include: [
         {
-          model: Species
+          model: Species,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
         },
         {
-          model: User
+          model: User,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "password", "profileId", "role"]
+          },
+          include: [
+            {
+              model: Profile,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password"]
+              }
+            }
+          ]
         }
-      ]
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "speciesId", "userId"]
+      }
     });
     res.send({
       message: "All your Data",
+      status: true,
       data
     });
   } catch (error) {
@@ -24,25 +44,53 @@ exports.index = async (req, res) => {
 };
 
 exports.show = async (req, res) => {
-  const data = await Pet.findOne({
-    include: [
-      {
-        model: Species
+  try {
+    const data = await Pet.findOne({
+      include: [
+        {
+          model: Species,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+        },
+        {
+          model: User,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "password", "profileId", "role"]
+          },
+          include: [
+            {
+              model: Profile,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password"]
+              }
+            }
+          ]
+        }
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "speciesId", "userId"]
       },
-      {
-        model: User
-      }
-    ],
-    where: { id: req.params.id }
-  });
-  res.send({
-    data
-  });
+      where: { id: req.params.id }
+    });
+    res.send({
+      message: "show your pet",
+      status: true,
+      data
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      message: "No authenticated, login for authenticated",
+      status: false
+    });
+  }
 };
 exports.insert = async (req, res) => {
   try {
     const userIdToken = req.user.userId;
     const { name_pet, gender, species_id, age, about_pet, photo } = req.body;
+    // const verifyPayment = Payment.findOne({});
     const createdPet = await Pet.create({
       name: name_pet,
       gender,
@@ -56,22 +104,34 @@ exports.insert = async (req, res) => {
       include: [
         {
           model: Species,
-          attributes: { exclude: ["password", "createdAt", "updatedAt"] }
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
         },
         {
           model: User,
-          attributes: { exclude: ["password", "createdAt", "updatedAt"] }
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "password", "profileId"]
+          },
+          include: [
+            {
+              model: Profile,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password", "role"]
+              }
+            }
+          ]
         }
       ],
       attributes: {
-        exclude: ["speciesId", "userId", "createdAt", "updatedAt"]
+        exclude: ["createdAt", "updatedAt", "speciesId", "userId"]
       },
       where: { id: createdPet.id }
     });
     res.send({
-      data,
       message: "created another Pet done",
-      status: "true"
+      status: true,
+      data
     });
   } catch (error) {
     console.log(error);
@@ -88,6 +148,7 @@ exports.edit = async (req, res) => {
     const verifyPet = await Pet.findOne({
       where: { id: req.params.id, userId: req.user.userId }
     });
+
     if (verifyPet) {
       await Pet.update(
         {
@@ -107,18 +168,32 @@ exports.edit = async (req, res) => {
           {
             model: Species,
             attributes: {
-              exclude: ["password", "createdAt", "updatedAt"]
+              exclude: ["createdAt", "updatedAt"]
             }
           },
           {
             model: User,
             attributes: {
-              exclude: ["password", "createdAt", "updatedAt"]
-            }
+              exclude: [
+                "createdAt",
+                "updatedAt",
+                "password",
+                "profileId",
+                "role"
+              ]
+            },
+            include: [
+              {
+                model: Profile,
+                attributes: {
+                  exclude: ["createdAt", "updatedAt", "password"]
+                }
+              }
+            ]
           }
         ],
         attributes: {
-          exclude: ["speciesId", "userId", "createdAt", "updatedAt"]
+          exclude: ["createdAt", "updatedAt", "speciesId", "userId"]
         },
         where: { id: req.params.id }
       });

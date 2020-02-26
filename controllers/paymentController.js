@@ -45,25 +45,48 @@ exports.edit = async (req, res) => {
         { where: { id: req.params.id } }
       );
 
-      const dataPayment = await Payment.findOne({
-        where: payment.id,
-        attributes: { exclude: ["createdAt", "updatedAt", "role"] }
+      const data = await Payment.findOne({
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: [
+                "createdAt",
+                "updatedAt",
+                "role",
+                "profileId",
+                "password"
+              ]
+            },
+            include: [
+              {
+                model: Profile,
+                attributes: { exclude: ["createdAt", "updatedAt"] }
+              }
+            ]
+          }
+        ]
       });
-      const dataUser = await Profile.findOne({
-        where: dataPayment.userId,
-        attributes: { exclude: ["createdAt", "updatedAt", "role", "userId"] }
-      });
-      const data = [
-        {
-          payemntId: dataPayment.id,
-          name: dataUser.name,
-          address: dataUser.address,
-          phone: dataUser.phone,
-          noRek: dataPayment.noRek,
-          proofOfTransfer: dataPayment.proofOfTransfer,
-          status: dataPayment.status
-        }
-      ];
+
+      // const dataPayment = await Payment.findOne({
+      //   where: payment.id,
+      //   attributes: { exclude: ["createdAt", "updatedAt", "role"] }
+      // });
+      // const dataUser = await Profile.findOne({
+      //   where: dataPayment.userId,
+      //   attributes: { exclude: ["createdAt", "updatedAt", "role", "userId"] }
+      // });
+      // const data = [
+      //   {
+      //     payemntId: dataPayment.id,
+      //     name: dataUser.name,
+      //     address: dataUser.address,
+      //     phone: dataUser.phone,
+      //     noRek: dataPayment.noRek,
+      //     proofOfTransfer: dataPayment.proofOfTransfer,
+      //     status: dataPayment.status
+      //   }
+      // ];
       res.send({
         message: "success editing status payment",
         status: true,

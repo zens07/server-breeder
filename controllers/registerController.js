@@ -20,36 +20,34 @@ exports.insert = async (req, res) => {
         where: { id: species_id }
       });
       if (verifySpecies) {
+        const profile = await Profile.create({
+          name: name_user,
+          phone: phone,
+          address: address
+        });
         const user = await User.create({
           email,
           password: hash,
-          role: "user"
+          role: "user",
+          profileId: profile.id
         });
-        if (user) {
-          await Profile.create({
-            name: name_user,
-            phone: phone,
-            address: address,
-            userId: user.id
-          });
-          // console.log(profile)
-          await Pet.create({
-            name: name_pet,
-            gender: gender,
-            age: age,
-            photo,
-            about,
-            speciesId: species_id,
-            userId: user.id
-          });
-          const token = jwt.sign({ userId: user.id }, "my-token-key");
-          res.send({
-            message: "succesfully for inputed data",
-            status: "success",
-            email,
-            token
-          });
-        }
+        // console.log(profile)
+        await Pet.create({
+          name: name_pet,
+          gender: gender,
+          age: age,
+          photo,
+          about,
+          speciesId: species_id,
+          userId: user.id
+        });
+        const token = jwt.sign({ userId: user.id }, "my-token-key");
+        res.send({
+          message: "succesfully for inputed data",
+          status: "success",
+          email,
+          token
+        });
       } else {
         res.status(400).send({ message: "Bad request" });
       }

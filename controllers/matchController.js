@@ -1,4 +1,5 @@
 const models = require("../models");
+const Op = require("Sequelize").Op;
 const Pet = models.pet;
 const Match = models.match;
 const Species = models.species;
@@ -180,57 +181,54 @@ exports.edit = async (req, res) => {
       where: { id: req.params.id }
     });
     res.status(200).send({
-      message: "status updated true",
+      message: "status update   d true",
       status: true,
       data
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    // const { pet_id, pet_id_like } = req.query;
-    // const verifyMatch = await Match.findOne({
-    //   where: { petId: pet_id_like }
-    // });
-
-    // if (verifyMatch) {
-    //   //update for status in table match
-    //   await Match.update(
-    //     {
-    //       status: true
-    //     },
-    //     {
-    //       where: { id: verifyMatch.id }
-    //     }
-    //   );
-
-    //   const data = Match.findOne({
-    //     where: {
-    //       $or: [
-    //         {
-    //           petId: pet_id_like
-    //         },
-    //         {
-    //           petIdlike: pet_id
-    //         }
-    //       ]
-    //     }
-    //   });
-    //   res.send({
-    //     message: "Your pet is favored by other pet updates true match",
-    //     status: true,
-    //     data
-    //   });
-    // } else if (!verifyMatch) {
-    //   //create in table match
-    //   const data = await Match.create({
-    //     petId: pet_id,
-    //     petIdLike: pet_like_id
-    //   });
-    //   res.status(204).send({
-    //     message:
-    //       "Your pet does not match by another pet and created pet id like",
-    //     status: true,
-    //     data
-    //   });
-    // }
+exports.matching = async (req, res) => {
+  try {
+    const { pet_id, pet_id_like } = req.body;
+    // const { or } = Sequelize.OP;
+    const verifyMatch = await Match.findOne({
+      where: {
+        petId: pet_id,
+        petIdLike: pet_id_like
+      }
+    });
+    if (!verifyMatch) {
+      const verifyMatched = await Match.findOne({
+        where: {
+          petId: pet_id_like,
+          petIdLike: pet_id
+          // [Op.or]: [
+          //   { petId: pet_id_like, petIdLike: pet_id },
+          //   { petId: pet_id, petIdLike: pet_id_like }
+          // ]
+        }
+      });
+      if (!verifyMatched) {
+        //create
+        res.send("create");
+      }
+      if (verifyMatched && verifyMatched.status == false) {
+        // update status
+        res.send("update");
+      }
+      if (verifyMatched && verifyMatched.status == true) {
+        //confirm in your pet matched
+        res.send("confirm");
+      }
+      res.send({
+        verifyMatch
+      });
+    } else {
+      res.send("you have liked it");
+    }
   } catch (error) {
     console.log(error);
   }
