@@ -1,4 +1,5 @@
 const express = require("express");
+// const Sequelize = require("sequelize");
 require("express-group-routes");
 
 const app = express();

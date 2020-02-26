@@ -1,5 +1,4 @@
 const models = require("../models");
-const Op = require("Sequelize").Op;
 const Pet = models.pet;
 const Match = models.match;
 const Species = models.species;
