@@ -3,9 +3,9 @@ const Users = require("../models").users;
 
 exports.index = async (req, res) => {
   try {
-    const species = await Species.findAll();
+    const data = await Species.findAll();
     res.send({
-      species
+      data
     });
   } catch (error) {
     console.log(error);
