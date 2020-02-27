@@ -28,7 +28,7 @@ app.group("/api/v1", router => {
   //router register
   router.post("/register", registerController.insert);
   //router spesies
-  router.get("/index/species", authenticated, speciesController.index);
+  router.get("/index/species", speciesController.index);
   router.post("/create/species", authenticated, speciesController.insert);
   //router pets
   router.get("/index/pet", authenticated, petController.index);
