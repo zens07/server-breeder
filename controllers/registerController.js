@@ -59,6 +59,6 @@ exports.insert = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).send({ message: "Bad request" });
+    res.status(401).send({ message: "Bad request" });
   }
 };
