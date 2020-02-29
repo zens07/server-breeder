@@ -15,7 +15,7 @@ exports.show = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt", "role", "password", "profileId"]
       },
-      where: { id: req.params.id }
+      where: { id: req.user.userId }
     });
     res.send({
       message: "Detail your Account",
