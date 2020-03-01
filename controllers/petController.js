@@ -43,6 +43,46 @@ exports.index = async (req, res) => {
   }
 };
 
+exports.petAuth = async (req, res) => {
+  try {
+    const data = await Pet.findAll({
+      include: [
+        {
+          model: Species,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+        },
+        {
+          model: User,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "password", "profileId", "role"]
+          },
+          include: [
+            {
+              model: Profile,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password"]
+              }
+            }
+          ]
+        }
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "speciesId", "userId"]
+      },
+      where: { userId: req.user.userId }
+    });
+    res.send({
+      message: "All your Data",
+      status: true,
+      data
+    });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 exports.show = async (req, res) => {
   try {
     const data = await Pet.findOne({

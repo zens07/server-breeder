@@ -33,6 +33,7 @@ app.group("/api/v1", router => {
   //router pets
   router.get("/index/pet", authenticated, petController.index);
   router.get("/show/pet/:id", authenticated, petController.show);
+  router.get("/pet", authenticated, petController.petAuth);
   router.post("/create/pet", authenticated, petController.insert);
   router.patch("/edit/pet/:id", authenticated, petController.edit);
   router.delete("/delete/pet/:id", authenticated, petController.deleted);
