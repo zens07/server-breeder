@@ -76,7 +76,7 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.pivateUser = async (req, res) => {
+exports.privateUser = async (req, res) => {
   try {
     const data = await User.findOne({
       include: [
