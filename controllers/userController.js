@@ -75,6 +75,33 @@ exports.update = async (req, res) => {
     });
   }
 };
+
+exports.pivateUser = async (req, res) => {
+  try {
+    const data = await User.findOne({
+      include: [
+        {
+          model: Profile,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+        }
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "role", "password", "profileId"]
+      },
+      where: { id: req.user.userId }
+    });
+    res.send({
+      message: "Detail your Account",
+      status: true,
+      data
+    });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 exports.deleted = async (req, res) => {
   try {
     if (req.user.userId == req.params.id) {

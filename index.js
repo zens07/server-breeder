@@ -37,6 +37,7 @@ app.group("/api/v1", router => {
   router.patch("/edit/pet/:id", authenticated, petController.edit);
   router.delete("/delete/pet/:id", authenticated, petController.deleted);
   //router user
+  router.get("/user", authenticated, userController.privateUser);
   router.get("/show/user/:id", authenticated, userController.show);
   router.patch("/edit/user/:id", authenticated, userController.update);
   router.delete("/delete/user/:id", authenticated, userController.deleted);
