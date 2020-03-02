@@ -1,11 +1,11 @@
 const models = require("../models");
-// const Op = require("Sequelize").Op;
+const Op = require("Sequelize").Op;
 const Pet = models.pet;
 const Match = models.match;
 const Species = models.species;
 const User = models.users;
 const Profile = models.profile;
-const { or } = Sequelize.Op;
+// const { or } = Sequelize.Op;
 
 exports.index = async (req, res) => {
   try {
@@ -75,7 +75,7 @@ exports.index = async (req, res) => {
         exclude: ["createdAt", "updatedAt", "petId", "petIdLike"]
       },
       where: {
-        [or]: [{ petId: pet_id }, { petIdLike: pet_id }]
+        [Op.or]: [{ petId: pet_id }, { petIdLike: pet_id }]
       }
     });
     res.send({
