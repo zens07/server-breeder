@@ -5,6 +5,88 @@ const Match = models.match;
 const Species = models.species;
 const User = models.users;
 const Profile = models.profile;
+const { or } = Sequelize.Op;
+
+exports.index = async (req, res) => {
+  try {
+    const { pet_id } = req.query;
+    const data = await Match.findOne({
+      include: [
+        {
+          model: Pet,
+          as: "pet",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "speciesId"]
+          },
+          include: [
+            {
+              model: Species,
+              attributes: {
+                exclude: ["createdAt", "updatedAt"]
+              }
+            },
+            {
+              model: User,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password", "profileId"]
+              },
+              include: [
+                {
+                  model: Profile,
+                  attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          model: Pet,
+          as: "pet_like",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "speciesId"]
+          },
+          include: [
+            {
+              model: Species,
+              attributes: {
+                exclude: ["createdAt", "updatedAt"]
+              }
+            },
+            {
+              model: User,
+              attributes: {
+                exclude: ["createdAt", "updatedAt", "password", "profileId"]
+              },
+              include: [
+                {
+                  model: Profile,
+                  attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "petId", "petIdLike"]
+      },
+      where: {
+        [or]: [{ petId: pet_id }, { petIdLike: pet_id }]
+      }
+    });
+    res.send({
+      message: "Checked Data Match",
+      status: true,
+      data
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.show = async (req, res) => {
   try {

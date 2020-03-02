@@ -46,7 +46,8 @@ app.group("/api/v1", router => {
   router.patch("/edit/payment/:id", authenticated, paymentController.edit);
   router.post("/create/payment/:id", authenticated, paymentController.insert);
   //router matching
-  // router.get("/show/match", authenticated, matchController.show);
+  router.get("/index/match", authenticated, matchController.index);
+  router.get("/show/match", authenticated, matchController.show);
   // router.post("/insert/match", authenticated, matchController.insert);
   // router.patch("/edit/match/:id", authenticated, matchController.edit);
   // router.post("/matching", authenticated, matchController.matching);

@@ -74,7 +74,7 @@ exports.petAuth = async (req, res) => {
       where: { userId: req.user.userId }
     });
     res.send({
-      message: "All your Data",
+      message: "All your pet this account",
       status: true,
       data
     });
