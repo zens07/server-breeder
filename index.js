@@ -1,5 +1,5 @@
 const express = require("express");
-// const Sequelize = require("sequelize");
+const Sequelize = require("sequelize");
 require("express-group-routes");
 
 const app = express();
@@ -7,6 +7,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+// const port = 5000;
 const port = process.env.PORT || 5000;
 
 app.use(cors());
